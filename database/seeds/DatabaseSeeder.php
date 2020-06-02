@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\User;
 use App\posts;
+use App\Coments;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,17 +16,20 @@ class DatabaseSeeder extends Seeder
     {
         User::truncate();
         Posts::truncate();
+        Coments::truncate();
 
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
         factory(User::class,10)->create();
         factory(Posts::class,20)->create();
+        factory(Coments::class,100)->create();
 
 
-        $arrays = range(0,50);
+       /* $arrays = range(0,50);
         foreach ($arrays as $array) {
             DB::table('likes')->insert([
-                'id_user'=>random_int(0,10),
-                'id_post'=>random_int(0,10)
+                'id_user'=>random_int(1,10),
+                'id_post'=>random_int(1,20)
             ]);
-        }
+        }*/
     }
 }

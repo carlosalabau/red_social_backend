@@ -73,7 +73,7 @@ class UserController extends Controller
     }
     public function login(Request $request)
     {
-        try {
+       // try {
             $credentials = $request->only(['email', 'password']);
             if (!Auth::attempt($credentials)) {
                 return response([
@@ -87,12 +87,12 @@ class UserController extends Controller
                 'user'=>$user,
                 'token'=>$token
             ]);
-        } catch (\Exception $e) {
+      /*  } catch (\Exception $e) {
             return response([
                 'message' => 'There was an error trying to login the user',
                 'error' => $e
             ], 500);
-        }
+        }*/
     }
     public function logout()
     {

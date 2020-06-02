@@ -11,7 +11,10 @@ class Posts extends Model
         return $this->belongsTo('App\User','id_user');
     }
     public function likes(){
-        return $this->belongsToMany('App\User', 'likes', 'id_post', 'id_user');
+    return $this->belongsToMany('App\User', 'likes', 'id_post', 'id_user');
+    }
+    public function coments(){
+        return $this->belongsToMany('App\User', 'coments', 'id_post', 'id_user');
     }
 }
 

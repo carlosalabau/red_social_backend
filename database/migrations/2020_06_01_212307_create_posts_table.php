@@ -20,13 +20,24 @@ class CreatePostsTable extends Migration
             $table->text('titulo');
             $table->timestamps();
 
-            $table->foreign('id_user')->references('id')->on('user')->onDelete('cascade');
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
         });
 
         Schema::create('likes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_post');
             $table->unsignedBigInteger('id_user');
+            $table->timestamps();
+
+            $table->foreign('id_post')->references('id')->on('posts');
+            $table->foreign('id_user')->references('id')->on('user');
+        });
+
+        Schema::create('coments', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('id_post');
+            $table->unsignedBigInteger('id_user');
+            $table->string('coment');
             $table->timestamps();
 
             $table->foreign('id_post')->references('id')->on('posts');

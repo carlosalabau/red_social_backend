@@ -19,6 +19,9 @@ class User extends Authenticatable
     public function likes(){
         return $this->belongsToMany('App\Posts', 'likes', 'id_user', 'id_post');
     }
+    public function coments(){
+        return $this->belongsToMany('App\Posts', 'coments', 'id_user', 'id_post');
+    }
 
     /**
      * The attributes that are mass assignable.

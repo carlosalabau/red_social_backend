@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('users/new', 'UserController@register');
 Route::post('users/login', 'UserController@login');
+Route::get('/logout','UserController@logout');
+
 
 Route::group([
     'prefix'=>'users',
@@ -25,7 +27,7 @@ Route::group([
 ], function(){
     Route::get('/', 'UserController@index');
     Route::get('/user', 'UserController@getUser');
-    Route::get('/logout','UserController@logout');
+    Route::get('/search/{letter}', 'UserController@search');
 });
 Route::group([
     'prefix'=>'posts',

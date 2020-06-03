@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
 
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
         factory(User::class,10)->create();
-        factory(Posts::class,20)->create();
+        factory(Posts::class,50)->create();
         factory(Coments::class,100)->create();
 
 

@@ -113,4 +113,11 @@ class UserController extends Controller
         return Auth::user();
     }
 
+    public function search($letter){
+
+        $search = User::where('nombre','like','%'.$letter.'%')->get();
+
+        return response(['letra'=>$letter,'busqueda'=>$search]);
+    }
+
 }

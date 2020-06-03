@@ -22,13 +22,20 @@ class PostsController extends Controller
                 'id_user'=> 'required'
             ]);
             $like = Likes::create($request->all());
-            return response(['msg'=>'Correcto', 'like'=>$like],201);
+            $nLike = Posts::find($request->id_post)->likes()->count();
+            return response(['msg'=>'Correcto', 'like'=>$like, 'nLike'=>$nLike],201);
         }catch (\Exception $exception){
             return response($exception, 500);
         }
     }
     public function dislike(Request $request){
-        return DB::table('likes')->where('id_user', '=', $request['id_user'])
+        $body = Validator::make($request->all(), [
+            'id_post'=>'required',
+            'id_user'=> 'required'
+        ]);
+        $dislike = Likes::where('id_user', '=', $request['id_user'])
             ->where('id_post', '=', $request['id_post'])->delete();
+        $nDislike = Posts::find($request->id_post)->likes()->count();
+        return response(['msg'=>'Correcto', 'dislike'=>$dislike,'nDislike'=>$nDislike]);
     }
 }

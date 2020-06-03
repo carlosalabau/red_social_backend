@@ -38,4 +38,8 @@ class PostsController extends Controller
         $nDislike = Posts::find($request->id_post)->likes()->count();
         return response(['msg'=>'Correcto', 'dislike'=>$dislike,'nDislike'=>$nDislike]);
     }
-}
+    public function coments($id){
+        return Coments::where('id_post','=',$id)->all();
+    }
+
+} // Cierre final

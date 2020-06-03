@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('users/new', 'UserController@register');
 Route::post('users/login', 'UserController@login');
-Route::get('/logout','UserController@logout');
+Route::get('users/logout','UserController@logout');
 
 
 Route::group([
@@ -36,6 +36,7 @@ Route::group([
     Route::get('/', 'PostsController@index');
     Route::post('/like','PostsController@like');
     Route::post('/dislike','PostsController@dislike');
+    Route::get('/coments/{id}', 'PostController@coments');
 });
 
 

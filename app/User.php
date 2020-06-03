@@ -20,7 +20,7 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Posts', 'likes', 'id_user', 'id_post');
     }
     public function coments(){
-        return $this->belongsToMany('App\Posts', 'coments', 'id_user', 'id_post');
+        return $this->belongsToMany('App\Posts', 'coments', 'id_user', 'id_post')->withPivot('coment');
     }
 
     /**

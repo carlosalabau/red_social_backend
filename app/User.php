@@ -22,6 +22,12 @@ class User extends Authenticatable
     public function coments(){
         return $this->belongsToMany('App\Posts', 'coments', 'id_user', 'id_post')->withPivot('coment');
     }
+    public function followers(){
+        return $this->belongsToMany('App\User', 'followers','id_follower','id_followed');
+    }
+    public function following(){
+        return $this->belongsToMany('App\User', 'followers','id_followed','id_follower');
+    }
 
     /**
      * The attributes that are mass assignable.

@@ -23,13 +23,12 @@ class DatabaseSeeder extends Seeder
         factory(Posts::class,50)->create();
         factory(Coments::class,100)->create();
 
-
-       /* $arrays = range(0,50);
+        $arrays = range(0,60);
         foreach ($arrays as $array) {
-            DB::table('likes')->insert([
-                'id_user'=>random_int(1,10),
-                'id_post'=>random_int(1,20)
+            DB::table('followers')->insert([
+                'id_follower'=>random_int(1,10),
+                'id_followed'=>random_int(1,10)
             ]);
-        }*/
+        }
     }
 }

@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('users/new', 'UserController@register');
 Route::post('users/login', 'UserController@login');
 Route::get('users/logout','UserController@logout');
-
+Route::get('users/name/{id}', 'UserController@nameFollower');
 
 Route::group([
     'prefix'=>'users',
@@ -28,6 +28,7 @@ Route::group([
     Route::get('/', 'UserController@index');
     Route::get('/user', 'UserController@getUser');
     Route::get('/search/{letter}', 'UserController@search');
+
 });
 Route::group([
     'prefix'=>'posts',
@@ -37,6 +38,18 @@ Route::group([
     Route::post('/like','PostsController@like');
     Route::post('/dislike','PostsController@dislike');
     Route::get('/coments/{id}', 'PostController@coments');
+});
+Route::group([
+    'prefix'=>'coment',
+    'middleware'=>'auth:api'
+], function(){
+    Route::post('/new', 'PostsController@addComent');
+});
+Route::group([
+    'prefix'=>'follow',
+    'middleware'=>'auth:api'
+], function(){
+    Route::get('/{id}', 'PostsController@allFollows');
 });
 
 

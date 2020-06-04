@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Posts;
 use App\Likes;
+use App\User;
+use App\Coments;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
@@ -40,6 +42,13 @@ class PostsController extends Controller
     }
     public function coments($id){
         return Coments::where('id_post','=',$id)->all();
+    }
+    public function addComent(Request $request){
+        $body = $request->all();
+        return Coments::create($body);
+    }
+    public function allFollows($id){
+        return User::find($id)->followers()->get();
     }
 
 } // Cierre final

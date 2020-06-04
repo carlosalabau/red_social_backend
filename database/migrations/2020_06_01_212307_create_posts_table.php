@@ -43,6 +43,15 @@ class CreatePostsTable extends Migration
             $table->foreign('id_post')->references('id')->on('posts');
             $table->foreign('id_user')->references('id')->on('user');
         });
+        Schema::create('followers', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('id_follower');
+            $table->unsignedBigInteger('id_followed');
+            $table->timestamps();
+
+            $table->foreign('id_follower')->references('id')->on('user');
+            $table->foreign('id_followed')->references('id')->on('user');
+        });
 
     }
 

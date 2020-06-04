@@ -119,5 +119,8 @@ class UserController extends Controller
 
         return response(['letra'=>$letter,'busqueda'=>$search]);
     }
+    public function nameFollower($id){
+        return User::select('nombre')->where('id','=',$id)->get();
+    }
 
 }

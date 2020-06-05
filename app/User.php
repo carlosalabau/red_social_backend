@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Posts;
+use App\Post;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -14,13 +14,13 @@ class User extends Authenticatable
     use HasApiTokens;
 
     public function posts(){
-        return $this->hasMany('App\Posts');
+        return $this->hasMany('App\Post','id_user');
     }
     public function likes(){
-        return $this->belongsToMany('App\Posts', 'likes', 'id_user', 'id_post');
+        return $this->belongsToMany('App\Post', 'likes', 'id_user', 'id_post');
     }
     public function coments(){
-        return $this->belongsToMany('App\Posts', 'coments', 'id_user', 'id_post')->withPivot('coment');
+        return $this->hasMany('App\Comment', 'id_user');
     }
     public function followers(){
         return $this->belongsToMany('App\User', 'followers','id_follower','id_followed');

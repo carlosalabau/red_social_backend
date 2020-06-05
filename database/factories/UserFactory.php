@@ -26,6 +26,7 @@ $factory->define(User::class, function (Faker $faker) {
         'edad'=>$faker->numberBetween(18,66),
         'sexo'=>$faker->randomElement(['hombre','mujer','NC']),
         'imagen'=>'https://picsum.photos/500/500?random='.$faker->numberBetween(1,100),
+        'imagen_perfil'=>'https://picsum.photos/1200/500?random='.$faker->numberBetween(1,100),
         'remember_token' => Str::random(10)
     ];
 });

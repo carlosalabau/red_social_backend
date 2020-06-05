@@ -3,18 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Posts;
-use App\Likes;
+use App\Post;
+use App\Like;
 use App\User;
-use App\Coments;
+use App\Comment;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
-class PostsController extends Controller
+class PostController extends Controller
 {
     public function index()
     {
-        $posts = Posts::orderBy('id','desc')->with('user','likes','coments')->get();
+       /* return Post::with('coments', 'likes','user.coments')->get();*/
+        $posts = Post::orderBy('id','desc')->with('user','likes','comments.user')->get();
         return response($posts, 201);
     }
     public function like(Request $request){
@@ -23,8 +24,8 @@ class PostsController extends Controller
                 'id_post'=>'required',
                 'id_user'=> 'required'
             ]);
-            $like = Likes::create($request->all());
-            $nLike = Posts::find($request->id_post)->likes()->count();
+            $like = Like::create($request->all());
+            $nLike = Post::find($request->id_post)->likes()->count();
             return response(['msg'=>'Correcto', 'like'=>$like, 'nLike'=>$nLike],201);
         }catch (\Exception $exception){
             return response($exception, 500);
@@ -35,20 +36,21 @@ class PostsController extends Controller
             'id_post'=>'required',
             'id_user'=> 'required'
         ]);
-        $dislike = Likes::where('id_user', '=', $request['id_user'])
+        $dislike = Like::where('id_user', '=', $request['id_user'])
             ->where('id_post', '=', $request['id_post'])->delete();
-        $nDislike = Posts::find($request->id_post)->likes()->count();
+        $nDislike = Post::find($request->id_post)->likes()->count();
         return response(['msg'=>'Correcto', 'dislike'=>$dislike,'nDislike'=>$nDislike]);
-    }
-    public function coments($id){
-        return Coments::where('id_post','=',$id)->all();
-    }
-    public function addComent(Request $request){
-        $body = $request->all();
-        return Coments::create($body);
     }
     public function allFollows($id){
         return User::find($id)->followers()->get();
     }
+   public function getPostsPerfil($id){
+        return Post::where('id_user','=',$id)->with('user','likes','comments.user')->get();
+}
+public function newPost(Request $request){
+        $body= $request->all();
+        return Post::create($body);
+
+}
 
 } // Cierre final

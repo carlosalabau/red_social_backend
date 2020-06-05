@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Seeder;
 use App\User;
-use App\posts;
-use App\Coments;
+use App\Post;
+use App\Comment;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,13 +15,13 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         User::truncate();
-        Posts::truncate();
-        Coments::truncate();
+        Post::truncate();
+        Comment::truncate();
 
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
         factory(User::class,10)->create();
-        factory(Posts::class,50)->create();
-        factory(Coments::class,100)->create();
+        factory(Post::class,50)->create();
+        factory(Comment::class,100)->create();
 
         $arrays = range(0,60);
         foreach ($arrays as $array) {

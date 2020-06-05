@@ -16,13 +16,13 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::post('users/new', 'UserController@register');
-Route::post('users/login', 'UserController@login');
-Route::get('users/logout','UserController@logout');
-Route::get('users/name/{id}', 'UserController@nameFollower');
+Route::post('user/new', 'UserController@register');
+Route::post('user/login', 'UserController@login');
+Route::get('user/logout','UserController@logout');
+Route::get('user/name/{id}', 'UserController@nameFollower');
 
 Route::group([
-    'prefix'=>'users',
+    'prefix'=>'user',
     'middleware'=>'auth:api'
 ], function(){
     Route::get('/', 'UserController@index');
@@ -31,34 +31,36 @@ Route::group([
 
 });
 Route::group([
-    'prefix'=>'posts',
+    'prefix'=>'post',
     'middleware'=>'auth:api'
 ], function(){
-    Route::get('/', 'PostsController@index');
-    Route::post('/like','PostsController@like');
-    Route::post('/dislike','PostsController@dislike');
-    Route::get('/coments/{id}', 'PostController@coments');
+    Route::get('/', 'PostController@index');
+    Route::post('/like','PostController@like');
+    Route::post('/dislike','PostController@dislike');
+    Route::get('/perfil/{id}','PostController@getPostsPerfil');
+    Route::post('/new','PostController@newPost');
 });
 Route::group([
-    'prefix'=>'coment',
+    'prefix'=>'comment',
     'middleware'=>'auth:api'
 ], function(){
-    Route::post('/new', 'PostsController@addComent');
+    Route::post('/new', 'CommentController@addComment');
+    Route::get('/name/{id}','CommentController@getName');
 });
 Route::group([
     'prefix'=>'follow',
     'middleware'=>'auth:api'
 ], function(){
-    Route::get('/{id}', 'PostsController@allFollows');
+    Route::get('/{id}', 'PostController@allFollows');
 });
 
 
-//Route::apiResource('posts', 'PostsController');
+//Route::apiResource('posts', 'PostController');
 
 /*Route::middleware('auth:api')->group(function(){
     Route::get('users', 'UserController@index');
     Route::get('users/user', 'UserController@getUser');
-    Route::post('posts/like','PostsController@like');
+    Route::post('posts/like','PostController@like');
     Route::get('users/logout','UserController@logout');
-    Route::post('dislikes', 'PostsController@dislikes');
+    Route::post('dislikes', 'PostController@dislikes');
 });*/

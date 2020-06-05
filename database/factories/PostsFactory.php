@@ -2,10 +2,10 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\posts;
+use App\Post;
 use Faker\Generator as Faker;
 
-$factory->define(Posts::class, function (Faker $faker) {
+$factory->define(Post::class, function (Faker $faker) {
     return [
         'id_user'=>$faker->numberBetween(1,10),
         'titulo'=>$faker->sentence,

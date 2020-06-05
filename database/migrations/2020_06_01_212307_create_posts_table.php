@@ -33,16 +33,6 @@ class CreatePostsTable extends Migration
             $table->foreign('id_user')->references('id')->on('user');
         });
 
-        Schema::create('coments', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('id_post');
-            $table->unsignedBigInteger('id_user');
-            $table->string('coment');
-            $table->timestamps();
-
-            $table->foreign('id_post')->references('id')->on('posts');
-            $table->foreign('id_user')->references('id')->on('user');
-        });
         Schema::create('followers', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_follower');

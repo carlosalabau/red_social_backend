@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->integer('edad');
             $table->string('sexo')->default('NC');
             $table->string('imagen')->default('sin imagen');
+            $table->string('imagen_perfil')->default('sin imagen');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

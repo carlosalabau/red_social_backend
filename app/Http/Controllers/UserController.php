@@ -119,5 +119,25 @@ class UserController extends Controller
 
         return response(['letra'=>$letter,'busqueda'=>$search]);
     }
+    public function updateImages(Request $request){
+        try {
+            $request->validate([
+                'imagen' => 'required|image',
+                'imagen_perfil' => 'required|image'
+            ]);
+            $nombre = time() . "_" . request()->imagen->getClientOriginalName();
+            $nombre2 = time() . "_" . request()->imagen_perfil->getClientOriginalName();
+            request()->imagen->move('img', $nombre);
+            request()->imagen_perfil->move('img', $nombre2);
+            $user = Auth::user();
+            $user->imagen = $nombre;
+            $user->imagen_perfil = $nombre2;
+            $user->id = Auth::id();
+            $user->save();
+            return response(['msg' => 'correcto']);
+        }catch (\Exception $e){
+            return response(['error'=>$e],500);
+        }
+    }
 
 }

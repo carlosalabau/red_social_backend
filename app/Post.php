@@ -7,9 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    protected $fillable =[
-        'titulo','id_user'
-    ];
+    protected $guarded=[];
     public function user(){
         return $this->belongsTo('App\User','id_user');
     }

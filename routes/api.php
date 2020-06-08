@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,6 +22,7 @@ Route::post('user/login', 'UserController@login');
 Route::get('user/logout','UserController@logout');
 Route::get('user/name/{id}', 'UserController@nameFollower');
 
+
 Route::group([
     'prefix'=>'user',
     'middleware'=>'auth:api'
@@ -28,6 +30,7 @@ Route::group([
     Route::get('/', 'UserController@index');
     Route::get('/user', 'UserController@getUser');
     Route::get('/search/{letter}', 'UserController@search');
+    Route::post('/upload','UserController@updateImages');
 
 });
 Route::group([
@@ -39,6 +42,8 @@ Route::group([
     Route::post('/dislike','PostController@dislike');
     Route::get('/perfil/{id}','PostController@getPostsPerfil');
     Route::post('/new','PostController@newPost');
+    Route::delete('/delete/{id}', 'PostController@deletePost');
+    Route::post('/update/{id}','PostController@updatePost');
 });
 Route::group([
     'prefix'=>'comment',

@@ -57,6 +57,8 @@ Route::group([
     'middleware'=>'auth:api'
 ], function(){
     Route::get('/{id}', 'PostController@allFollows');
+    Route::post('/add','UserController@follow');
+    Route::post('/delete', 'UserController@unfollow');
 });
 
 

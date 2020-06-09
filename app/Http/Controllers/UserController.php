@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Queue\RedisQueue;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -15,6 +17,7 @@ class UserController extends Controller
         return User::all();
 
     }
+
     public function register(Request $request)
     {
         try {
@@ -52,55 +55,57 @@ class UserController extends Controller
                     }
                 }
                 return response()->json($msg, 400);
-            }else {
+            } else {
 
                 $user = new User();
                 $user->nombre = $request->all()['nombre'];
                 $user->apellidos = $request->all()['apellidos'];
                 $user->email = $request->all()['email'];
-                $user->password = Hash::make($request-> password);
+                $user->password = Hash::make($request->password);
                 $user->edad = $request->all()['edad'];
                 $user->sexo = $request->all()['sexo'];
                 $user->save();
                 return response($user, 201);
             }
-        }catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response([
                 'message' => 'There was an error trying to register the user',
                 'error' => $e
             ], 500);
         }
     }
+
     public function login(Request $request)
     {
-       // try {
-            $credentials = $request->only(['email', 'password']);
-            if (!Auth::attempt($credentials)) {
-                return response([
-                    'message' => 'Wrong credentials'
-                ], 400);
-            }
-            $user = Auth::user();//req.user
-            $token = $user->createToken('authToken')->accessToken;
-            $user->token=$token;
+         try {
+        $credentials = $request->only(['email', 'password']);
+        if (!Auth::attempt($credentials)) {
             return response([
-                'user'=>$user,
-                'token'=>$token
-            ]);
-      /*  } catch (\Exception $e) {
-            return response([
-                'message' => 'There was an error trying to login the user',
-                'error' => $e
-            ], 500);
-        }*/
+                'message' => 'Usuario o contraseña incorrectos'
+            ], 400);
+        }
+        $user = Auth::user();//req.user
+        $token = $user->createToken('authToken')->accessToken;
+        $user->token = $token;
+        return response([
+            'user' => $user,
+            'token' => $token
+        ]);
+         } catch (\Exception $e) {
+              return response([
+                  'message' => 'There was an error trying to login the user',
+                  'error' => $e
+              ], 500);
+          }
     }
+
     public function logout()
     {
         try {
             // Auth::user()->token()->delete();
             Auth::user()->token()->revoke();
             return response([
-                'message'=>'User successfully disconected.'
+                'message' => 'User successfully disconected.'
             ]);
         } catch (\Exception $e) {
             return response([
@@ -109,17 +114,20 @@ class UserController extends Controller
             ], 500);
         }
     }
-    public function getUser(){
+
+    public function getUser()
+    {
         return Auth::user();
     }
 
-    public function search($letter){
-
-        $search = User::where('nombre','like','%'.$letter.'%')->get();
-
-        return response(['letra'=>$letter,'busqueda'=>$search]);
+    public function search($letter)
+    {
+        $search = User::where('nombre', 'like', '%' . $letter . '%')->with('following')->get();
+        return $search;
     }
-    public function updateImages(Request $request){
+
+    public function updateImages(Request $request)
+    {
         try {
             $request->validate([
                 'imagen' => 'required|image',
@@ -135,8 +143,26 @@ class UserController extends Controller
             $user->id = Auth::id();
             $user->save();
             return response(['msg' => 'correcto']);
+        } catch (\Exception $e) {
+            return response(['error' => $e], 500);
+        }
+    }
+
+    public function follow(Request $request)
+    {
+        $user = Auth::user();
+        $follow = DB::table('followers')->insert(['id_followed' => $request[0], 'id_follower' => $user->id]);
+        return response(['msg'=>'Sois amigos','follow'=>$follow],200);
+    }
+    public function unfollow(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $unfollow = DB::table('followers')->where('id_follower', '=', $user->id)
+                ->where('id_followed', '=', $request[0])->delete();
+            return response(['msg' => 'Ya no sois amigos', 'unfollow' => $unfollow], 200);
         }catch (\Exception $e){
-            return response(['error'=>$e],500);
+            return response(['msg'=>'Ha ocurrido un error', 500]);
         }
     }
 

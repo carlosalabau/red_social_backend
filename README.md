@@ -15,7 +15,7 @@ Tambien necesitas un stack de sofware, como wamp, mamp, xamp para iniciar servic
 ### Instalacion
 
 Para poder tener el proyecto funcionando en tu PC necesitas realizar lo siguiente:
-  1. Dirigite a la carpeta y ejecuta el comando "composer global require laravel/installer". 
+  1. Dirigite a la carpeta y ejecuta el comando "composer update". 
   2. Lo primero que tendras que hacer es crear la base de datos, se debe llamar redSocial.
   3. Ahora tendras que crear todas sus tablas, columnas y relaciones. Para ello ejecuta el comando "php artisan migrate"
   4. Para rellenar las tablas con datos aleatorios ejecuta el comando "php artisan db:seed".

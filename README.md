@@ -25,9 +25,13 @@ El proyecto consta de 5 tablas: users, posts, likes, comments y followers. A con
 ![Screenshot](redSocial.png)
 
 Las relaciones son las siguientes:
+
 users - posts: 1-N
+
 users - (likes) - posts: N-N
+
 posts - comments: 1-N
+
 users - (followers) - users: N-N
 
 ## Autor

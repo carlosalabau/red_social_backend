@@ -60,7 +60,7 @@ class PostController extends Controller
         try {
             $body = $request->validate([
                 'titulo' => 'required| string',
-                'imagen' => 'required|image'
+                'imagen' => 'image'
             ]);
             $nombre = time() . "_" . request()->imagen->getClientOriginalName();
             request()->imagen->move('img', $nombre);

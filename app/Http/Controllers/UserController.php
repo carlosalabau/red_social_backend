@@ -129,17 +129,17 @@ class UserController extends Controller
     public function updateImages(Request $request)
     {
         try {
-            $request->validate([
-                'imagen' => 'required|image',
-                'imagen_perfil' => 'required|image'
-            ]);
-            $nombre = time() . "_" . request()->imagen->getClientOriginalName();
-            $nombre2 = time() . "_" . request()->imagen_perfil->getClientOriginalName();
-            request()->imagen->move('img', $nombre);
-            request()->imagen_perfil->move('img', $nombre2);
             $user = Auth::user();
-            $user->imagen = $nombre;
-            $user->imagen_perfil = $nombre2;
+            if($request->has('imagen')){
+                $nombre = time() . "_" . request()->imagen->getClientOriginalName();
+                request()->imagen->move('img', $nombre);
+                $user->imagen = $nombre;
+            }
+            if($request->has('imagen_perfil')) {
+                $nombre2 = time() . "_" . request()->imagen_perfil->getClientOriginalName();
+                request()->imagen_perfil->move('img', $nombre2);
+                $user->imagen_perfil = $nombre2;
+            }
             $user->id = Auth::id();
             $user->save();
             return response(['msg' => 'correcto']);
